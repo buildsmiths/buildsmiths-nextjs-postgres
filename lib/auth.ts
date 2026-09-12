@@ -1,10 +1,11 @@
 import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcryptjs';
-import { db } from './db';
+import { db, isDatabaseConfigured } from './db';
 import { users } from '@/db/schema';
 import { getServerSession } from 'next-auth';
-import { eq, sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
+import { env } from './env';
 
 const providers: any[] = [
     Credentials({
@@ -17,32 +18,39 @@ const providers: any[] = [
             const email = creds?.email as string | undefined;
             const password = creds?.password as string | undefined;
             if (!email || !password) return null;
-            
-            const userRows = await db.select({
-                id: users.id,
-                email: users.email,
-                password_hash: users.passwordHash
-            })
-            .from(users)
-            .where(sql`lower(${users.email}) = lower(${email})`)
-            .limit(1);
+            if (!isDatabaseConfigured()) return null;
 
-            const user = userRows[0];
-            if (!user) return null;
-            const ok = await compare(password, user.password_hash);
-            return ok ? { id: user.id, email: user.email } : null;
+            try {
+                const userRows = await db.select({
+                    id: users.id,
+                    email: users.email,
+                    password_hash: users.passwordHash
+                })
+                    .from(users)
+                    .where(sql`lower(${users.email}) = lower(${email})`)
+                    .limit(1);
+
+                const user = userRows[0];
+                if (!user) return null;
+                const ok = await compare(password, user.password_hash);
+                return ok ? { id: user.id, email: user.email } : null;
+            } catch (error) {
+                console.error('auth.authorize.failed', error);
+                return null;
+            }
         }
     })
 ];
 
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+if (env.google.enabled) {
     providers.push(GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        clientId: env.google.clientId!,
+        clientSecret: env.google.clientSecret!
     }));
 }
 
 export const authOptions = {
+    secret: env.authSecret,
     session: { strategy: 'jwt' as const },
     pages: {
         signIn: '/auth',

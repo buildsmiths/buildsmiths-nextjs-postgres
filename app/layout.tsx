@@ -5,6 +5,8 @@ import { AuthButton } from '@/components/AuthButton';
 import NavLink from '@/components/NavLink';
 import Providers from '@/components/Providers';
 import ThemeToggle from '@/components/ThemeToggle';
+import { SetupBanner } from '@/components/SetupBanner';
+import { env } from '@/lib/env';
 
 import { Metadata } from 'next';
 
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
         default: 'BuildSmiths StarterKit | The AI-Native SaaS Starter',
     },
     description: 'A minimalist foundation for 2026. Next.js 16, Postgres, and AI-ready Blueprints.',
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+    metadataBase: new URL(env.siteUrl),
     openGraph: {
         title: 'BuildSmiths StarterKit | The AI-Native SaaS Starter',
         description: 'A minimalist foundation for 2026. Next.js 16, Postgres, and AI-ready Blueprints.',
@@ -55,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             </nav>
                         </div>
                     </header>
+                    <SetupBanner />
                     <main id="main" className="flex-1">{children}</main>
                     <footer className="text-xs text-muted-foreground py-6 text-center border-t">
                         &copy; {new Date().getFullYear()} BuildSmiths StarterKit

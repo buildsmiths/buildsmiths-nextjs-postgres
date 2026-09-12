@@ -1,6 +1,8 @@
 import { withAuth } from "next-auth/middleware";
+import { env } from "@/lib/env";
 
 const authProxy = withAuth({
+  secret: env.authSecret,
   pages: {
     signIn: "/auth",
   },

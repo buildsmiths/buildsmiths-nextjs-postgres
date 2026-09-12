@@ -69,7 +69,7 @@ npm install
 cp .env.example .env.local
 
 # 3. Initialize Database (ensure Postgres is running)
-npm run db:schema
+npm run db:push
 npm run db:seed    # Optional: Adds test users
 
 # 4. Start Development

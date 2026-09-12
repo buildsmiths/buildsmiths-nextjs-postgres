@@ -1,7 +1,7 @@
 'use server';
 
 import { hash } from 'bcryptjs';
-import { db } from '@/lib/db';
+import { db, isDatabaseConfigured } from '@/lib/db';
 import { users } from '@/db/schema';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -14,6 +14,10 @@ export async function registerAction(prevState: any, formData: FormData) {
     try {
             } catch {
         return { ok: false, code: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests. Please try again later.' };
+    }
+
+    if (!isDatabaseConfigured()) {
+        return { ok: false, code: 'SETUP_REQUIRED', message: 'Add DATABASE_URL in Vercel (or .env.local) before creating an account.' };
     }
 
     if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {

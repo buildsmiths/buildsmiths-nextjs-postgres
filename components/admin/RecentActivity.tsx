@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { db } from '@/lib/db';
+import { db, isDatabaseConfigured } from '@/lib/db';
 import { auditEvents } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -17,6 +17,9 @@ interface AuditEvent {
 export async function RecentActivity() {
     let events: AuditEvent[] = [];
     try {
+        if (!isDatabaseConfigured()) {
+            throw new Error('database not configured');
+        }
         const result = await db.select().from(auditEvents).orderBy(desc(auditEvents.ts)).limit(5);
         events = result.map(evt => ({
             ...evt,

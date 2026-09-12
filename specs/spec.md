@@ -11,13 +11,15 @@ A concise spec for this base starter so you can understand the moving parts and 
 - Tailwind CSS v4 alongside `shadcn/ui` base components.
 
 ## Configuration
-- Required env vars (runtime):
-  - `NEXT_PUBLIC_SITE_URL`
-  - `DATABASE_URL`
-  - `NEXTAUTH_SECRET`
+- Env vars are optional for a first Vercel import. The app boots in setup mode and shows a banner until they are set.
+- Runtime (enable auth + database):
+  - `DATABASE_URL` — Postgres
+  - `AUTH_SECRET` (or `NEXTAUTH_SECRET`) — session secret
+  - `NEXT_PUBLIC_SITE_URL` — optional on Vercel; falls back to `VERCEL_URL`
 - Loading behavior:
   - The app uses Next.js env loading (.env.local).
-  - The `db:schema` script reads envs outside Next with precedence: Shell > .env.local (non-empty) > .env (non-empty).
+  - On Vercel, system env (`VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL`) fills the public URL when unset.
+  - The `db:push` / `db:seed` scripts still need `DATABASE_URL`.
 
 ## Data model (summary)
 - `users`: id, email, password_hash
@@ -52,6 +54,7 @@ Optional integrations that can be added incrementally via `.md` specs:
 - Typecheck: `npm run typecheck`
 
 ## Success criteria
-- Health checks and core routes work locally with a real Postgres
-- Auth register/sign-in flows succeed.
+- `next build` succeeds with no env vars set (setup mode).
+- Health checks and core public routes work on Vercel with default project settings.
+- Auth register/sign-in succeed after `DATABASE_URL` and `AUTH_SECRET` are set.
 - Typecheck and production build pass without errors.

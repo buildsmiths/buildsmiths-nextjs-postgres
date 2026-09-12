@@ -91,9 +91,11 @@ scripts/           # Native Node TS scripts for Drizzle seeding without overhead
 
 ## 📈 Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/buildsmiths/buildsmiths-nextjs-postgres&project-name=buildsmiths-starter&repository-name=buildsmiths-starter&framework=nextjs&env=DATABASE_URL,NEXTAUTH_SECRET,NEXT_PUBLIC_SITE_URL&envDescription=Postgres%20connection%20string%2C%20Auth.js%20secret%2C%20and%20public%20site%20URL)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/buildsmiths/buildsmiths-nextjs-postgres&project-name=buildsmiths-starter&repository-name=buildsmiths-starter&framework=nextjs)
 
-Import this repository on Vercel (or use the button above). `vercel.json` pins the **Next.js** framework plus install/build commands so Vercel does not skip `npm install` or treat this as a non-Next app.
+Import this repository on Vercel (or use the button above) **with default settings**. You do not need to fill environment variables on the first deploy. The landing page, Blueprints, and health check will come up; a setup banner lists what to add next.
+
+`vercel.json` pins the **Next.js** framework plus install/build commands so Vercel does not skip `npm install` or treat this as a non-Next app.
 
 **Do not set Root Directory to `app`.** That folder is the App Router, not a nested project. Leave Root Directory empty (repository root), where `package.json` declares `"next"`. Setting Root Directory to `app` produces `No Next.js version detected`.
 
@@ -106,12 +108,12 @@ Use these project settings (also encoded in `vercel.json`):
 | Install Command | `npm install` |
 | Build Command | `next build` |
 | Output Directory | _leave default_ (do not set `.next`, `out`, or `app`) |
-| Node.js Version | 20.x or newer |
+| Node.js Version | 20.9+ (Vercel default 24.x is fine) |
 
-Required environment variables:
+After the first successful deploy, add these in Project Settings → Environment Variables and redeploy:
 
 - `DATABASE_URL` — Postgres connection string
-- `NEXTAUTH_SECRET` — `openssl rand -base64 32`
-- `NEXT_PUBLIC_SITE_URL` — your `https://….vercel.app` (or custom domain) URL
+- `AUTH_SECRET` — `openssl rand -base64 32` (`NEXTAUTH_SECRET` is accepted as an alias)
+- `NEXT_PUBLIC_SITE_URL` — optional on Vercel; falls back to `VERCEL_URL`
 
-After the first deploy, push the Drizzle schema (`npm run db:push`) against that same `DATABASE_URL`.
+Then push the Drizzle schema (`npm run db:push`) against that same `DATABASE_URL`.
