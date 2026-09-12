@@ -3,7 +3,7 @@
 A concise spec for this base starter so you can understand the moving parts and extend it safely. Focused on correctness, minimalism, and portability.
 
 ## Stack and layout
-- Next.js 16.2 (App Router, Turbopack)
+- Next.js 16 App Router (Turbopack)
   - Pages/UI in `app/`
   - Actions directly next to pages (e.g. `app/auth/actions.ts`)
 - Auth.js (NextAuth) — Credentials provider (email + password), JWT sessions
@@ -33,9 +33,10 @@ Schema lives in `db/schema.ts` mapped via Drizzle ORM.
 - Session resolution is JWT-based.
 
 ## Core App Features
-- Health: `GET /api/health` → `{ ok: true, time }`
+- Health: `GET /api/health` → `{ ok, time, setupComplete, database, authSecret }`
 - Middleware Gating: `proxy.ts` strictly gates `/dashboard` and `/account`.
-- Minimal Dashboard: Ready-to-go `app/dashboard/page.tsx` utilizing minimal database queries.
+- Minimal Dashboard: `app/dashboard/page.tsx`. Recent Activity reads `audit_events`. Auth sign-in/register writes those rows.
+- Account: reads the signed-in user's `subscriptions` row. Stripe upgrade is a blueprint, not a live checkout.
 
 ## Persistence
 - Drizzle ORM configured natively with `pg` located at `lib/db.ts`. No heavy backend Rust engines needed.

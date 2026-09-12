@@ -2,19 +2,12 @@
 
 import { hash } from 'bcryptjs';
 import { db, isDatabaseConfigured } from '@/lib/db';
-import { users } from '@/db/schema';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { subscriptions, users } from '@/db/schema';
+import { logAuditEvent } from '@/lib/audit';
 
 export async function registerAction(prevState: any, formData: FormData) {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-
-    
-    try {
-            } catch {
-        return { ok: false, code: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests. Please try again later.' };
-    }
 
     if (!isDatabaseConfigured()) {
         return { ok: false, code: 'SETUP_REQUIRED', message: 'Add DATABASE_URL in Vercel (or .env.local) before creating an account.' };
@@ -31,7 +24,12 @@ export async function registerAction(prevState: any, formData: FormData) {
     const pw = await hash(password, 12);
 
     try {
-        await db.insert(users).values({ email, passwordHash: pw });
+        const inserted = await db.insert(users).values({ email, passwordHash: pw }).returning({ id: users.id });
+        const userId = inserted[0]?.id;
+        if (userId) {
+            await db.insert(subscriptions).values({ userId, tier: 'free', status: 'none' });
+            await logAuditEvent('auth.register', email, { userId });
+        }
     } catch (e: any) {
         if (/unique|duplicate/i.test(e?.message || '')) {
             return { ok: false, code: 'EMAIL_IN_USE', message: 'This email is already registered.' };
@@ -40,9 +38,5 @@ export async function registerAction(prevState: any, formData: FormData) {
         return { ok: false, code: 'INTERNAL_ERROR', message: 'Something went wrong. Please try again.' };
     }
 
-    // Success! 
-    // We cannot automatically sign them in comfortably with NextAuth v4 Credential provider from the server side 
-    // without some tricks. So we will return success and let the client handle the signIn call (or redirect to logic).
-    // But since the UI expects to sign in immediately after register, we return success.
     return { ok: true, code: 'SUCCESS', message: 'Account created.' };
 }

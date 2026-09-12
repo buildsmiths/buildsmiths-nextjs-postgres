@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from "@/components/ui/badge"
-import { Check, Terminal, Zap, BookOpen, Layers, Code2, Box, GitBranch, ExternalLink, FolderTree } from "lucide-react"
+import { Check, Terminal, Layers, Code2, Box, GitBranch, ExternalLink, FolderTree } from "lucide-react"
 
 
 export default function Landing() {
@@ -10,12 +10,12 @@ export default function Landing() {
         <div className="mx-auto max-w-5xl px-4 py-16 space-y-24">
             {/* Hero */}
             <section className="space-y-6 text-center pt-8">
-                <Badge variant="secondary" className="mb-4">v2.0 Now Available</Badge>
+                <Badge variant="secondary" className="mb-4">Next.js 16 · Drizzle · Auth.js v4</Badge>
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground/90">
                     The <span className="text-primary">AI-Native</span> SaaS Starter
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-                    A minimalist Foundation for 2026. Next.js 16, Server Actions, and a unique <strong>Blueprint Architecture</strong> designed for AI code generation.
+                    A minimalist foundation for 2026. Next.js 16, Server Actions, Postgres with Drizzle, and a <strong>Blueprint Architecture</strong> designed for AI code generation.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
                     <Button asChild size="lg" className="h-12 px-8 text-base">
@@ -32,7 +32,7 @@ export default function Landing() {
             {/* Quickstart Content (Replaces Old Section) */}
             <section id="quickstart" aria-labelledby="quickstart-title" className="space-y-8">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold tracking-tight mb-2">Get Started in 5 Minutes</h2>
+                    <h2 id="quickstart-title" className="text-3xl font-bold tracking-tight mb-2">Get Started in 5 Minutes</h2>
                     <p className="text-muted-foreground">Everything you need to run locally is included.</p>
                 </div>
 
@@ -87,29 +87,27 @@ npm run dev`}
                             <div className="border rounded-lg divide-y text-sm">
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">app/</span>
-                                    <span className="text-foreground">Next.js App Router (Pages & API)</span>
+                                    <span className="text-foreground">Next.js App Router (pages, layouts, and actions)</span>
                                 </div>
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">blueprints/</span>
-                                    <span className="text-foreground">Feature specs (Markdown)</span>
+                                    <span className="text-foreground">Optional feature specs as Markdown (not shipped code)</span>
                                 </div>
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">components/</span>
-                                    <span className="text-foreground">React components (UI & Logic)</span>
+                                    <span className="text-foreground">React components (UI &amp; layout)</span>
                                 </div>
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">db/</span>
-                                    <span className="text-foreground">SQL migrations (schema.sql)</span>
+                                    <span className="text-foreground">Drizzle schema in schema.ts</span>
                                 </div>
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">lib/</span>
-                                    <span className="text-foreground">Core access, auth, db, payments optional</span>
+                                    <span className="text-foreground">Env, Auth.js v4, and the Drizzle client</span>
                                 </div>
                                 <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
                                     <span className="font-mono text-muted-foreground">scripts/</span>
-                                    <span className="text-foreground">Database management scripts</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
+                                    <span className="text-foreground">Database seed script</span>
                                 </div>
                             </div>
                         </div>
@@ -132,22 +130,19 @@ npm run dev`}
                             <ul className="space-y-3 text-sm">
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>NextAuth v4</strong> pre-configured security.</span>
+                                    <span><strong>Auth.js v4</strong> credentials (email + password).</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Postgres Schema</strong> for Users & Subs.</span>
+                                    <span><strong>Drizzle schema</strong> for users, subscriptions, and audit events.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Stripe Integration</strong> (Optional).</span>
+                                    <span><strong>Dashboard UI</strong> (shadcn / Tailwind v4).</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Dashboard UI</strong> (Shadcn/Tailwind).</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                                    <span><strong>Blueprints</strong> for Stripe, Google OAuth, AI SDK, and jobs.</span>
                                 </li>
                             </ul>
                         </CardContent>
@@ -169,17 +164,17 @@ npm run dev`}
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-primary mt-0.5" />
-                                    <span><strong>Postgres</strong> (Raw SQL, no ORM)</span>
+                                    <span><strong>Postgres</strong> + Drizzle ORM</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-primary mt-0.5" />
-                                    <span><strong>Tailwind v4</strong> + Shadcn</span>
+                                    <span><strong>Tailwind v4</strong> + shadcn/ui</span>
                                 </li>
                             </ul>
                             <div className="mt-8 pt-4 border-t">
-                                <p className="text-xs text-muted-foreground mb-3">Explore the "Blueprints" pattern.</p>
+                                <p className="text-xs text-muted-foreground mb-3">Explore the Blueprints pattern.</p>
                                 <Button variant="outline" size="sm" className="w-full" asChild>
-                                    <a href="/?scroll=blueprints">
+                                    <a href="/blueprints">
                                         View Blueprints <ExternalLink className="ml-2 h-3 w-3" />
                                     </a>
                                 </Button>
@@ -222,7 +217,7 @@ npm run dev`}
                     <h2 className="text-3xl font-bold tracking-tight">The "Blueprint" Architecture</h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
                         We don't just give you code; we give you the <strong>instructions</strong> to build it with AI.
-                        Found in <code>blueprints/features/</code>, these markdown specs are designed to be fed into Copilot or Cursor.
+                        Found in <code>blueprints/</code>, these markdown specs are designed to be fed into Copilot or Cursor.
                     </p>
                 </div>
 
@@ -230,11 +225,11 @@ npm run dev`}
                     {/* Card 1: AI Integration */}
                     <div className="border rounded-xl p-6 bg-muted/30 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="outline">blueprints/features/ai-sdk.md</Badge>
+                            <Badge variant="outline">blueprints/ai-sdk.md</Badge>
                         </div>
                         <h3 className="text-xl font-semibold mb-2">Omni-Model AI Chat</h3>
                         <p className="text-sm text-muted-foreground mb-4">
-                            Standardized Vercel AI SDK setup using OpenRouter. Switch between Claude 3.5 and GPT-4o via env vars without touching code.
+                            Standardized Vercel AI SDK setup using OpenRouter. Switch models via env vars without touching code.
                         </p>
                         <div className="bg-background border rounded p-3 text-xs font-mono text-muted-foreground">
                             &gt; "Implement the AI SDK Blueprint. Install `ai` and `@ai-sdk/openai`..."
@@ -244,14 +239,14 @@ npm run dev`}
                     {/* Card 2: Async Jobs */}
                     <div className="border rounded-xl p-6 bg-muted/30 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="outline">blueprints/features/async-jobs.md</Badge>
+                            <Badge variant="outline">blueprints/async-jobs.md</Badge>
                         </div>
                         <h3 className="text-xl font-semibold mb-2">Zero-Dependency Queue</h3>
                         <p className="text-sm text-muted-foreground mb-4">
                             A reliable Postgres-backed job queue for background tasks (emails, data processing) without adding Redis complexity.
                         </p>
                         <div className="bg-background border rounded p-3 text-xs font-mono text-muted-foreground">
-                            &gt; "Implement the Async Jobs Blueprint. Create a migration SQL file..."
+                            &gt; "Implement the Async Jobs Blueprint. Extend db/schema.ts..."
                         </div>
                     </div>
                 </div>

@@ -182,25 +182,23 @@ export async function POST(req: NextRequest) {
 }
 ```
 
-### 5. `db/schema.sql` (Additions)
-Add these fields to your `subscriptions` table and create the `webhook_events` table for idempotency:
+### 5. `db/schema.ts` (Additions)
+Extend the existing Drizzle `subscriptions` table and add `webhook_events` for idempotency, then run `npm run db:push`:
 
-```sql
--- Add to Subscriptions (if they don't exist)
-ALTER TABLE public.subscriptions ADD COLUMN stripe_customer_id text;
-ALTER TABLE public.subscriptions ADD COLUMN stripe_subscription_id text;
-create unique index if not exists idx_subscriptions_stripe_customer on public.subscriptions(stripe_customer_id);
+```ts
+import { pgTable, text, timestamp, uuid, jsonb, boolean } from 'drizzle-orm/pg-core';
 
--- Webhook idempotency
-create table if not exists public.webhook_events (
-  id text primary key,
-  type text not null,
-  processed_at timestamptz not null default now(),
-  user_id text,
-  duplicate boolean not null default false
-);
-create index if not exists idx_webhook_events_processed_at on public.webhook_events(processed_at desc);
-create index if not exists idx_webhook_events_type on public.webhook_events(type);
+// Add to the existing subscriptions table:
+// stripeCustomerId: text('stripe_customer_id'),
+// stripeSubscriptionId: text('stripe_subscription_id'),
+
+export const webhookEvents = pgTable('webhook_events', {
+    id: text('id').primaryKey(),
+    type: text('type').notNull(),
+    processedAt: timestamp('processed_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+    userId: text('user_id'),
+    duplicate: boolean('duplicate').notNull().default(false),
+});
 ```
 
 ### 6. `lib/db/webhookRepo.ts`

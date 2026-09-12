@@ -16,6 +16,8 @@ interface AuditEvent {
 
 export async function RecentActivity() {
     let events: AuditEvent[] = [];
+    let loadError = false;
+
     try {
         if (!isDatabaseConfigured()) {
             throw new Error('database not configured');
@@ -27,17 +29,7 @@ export async function RecentActivity() {
         }));
     } catch (e) {
         console.error("Failed to fetch audit events", e);
-    }
-
-    // Fallback to mock data if no events found (for demo purposes)
-    if (events.length === 0) {
-        events = [
-            { id: 'mock-1', ts: new Date(), actor: 'user_demo', type: 'auth.signin', payload: { method: 'credentials', ip: '192.168.1.1' } },
-            { id: 'mock-2', ts: new Date(Date.now() - 1000 * 60 * 15), actor: 'system', type: 'worker.job_completed', payload: { job: 'cleanup_sessions', duration: '120ms' } },
-            { id: 'mock-3', ts: new Date(Date.now() - 1000 * 60 * 45), actor: 'user_test', type: 'subscription.created', payload: { plan: 'premium', status: 'active' } },
-            { id: 'mock-4', ts: new Date(Date.now() - 1000 * 60 * 60 * 2), actor: 'system', type: 'tier.upgraded', payload: { amount: 2900, currency: 'usd' } },
-            { id: 'mock-5', ts: new Date(Date.now() - 1000 * 60 * 60 * 5), actor: 'system', type: 'db.migration', payload: { version: '20240101_init' } },
-        ];
+        loadError = true;
     }
 
     if (events.length === 0) {
@@ -45,12 +37,15 @@ export async function RecentActivity() {
             <Card className="col-span-1 md:col-span-2">
                 <CardHeader>
                     <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>Real-time audit logs from your database.</CardDescription>
+                    <CardDescription>Rows from the <code className="font-mono text-xs">audit_events</code> table.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col items-center justify-center p-8 text-center text-muted-foreground bg-muted/20 rounded-lg border border-dashed">
-                        <p className="text-sm">No events found in <code>public.audit_events</code>.</p>
-                        <p className="text-xs">Try signing in to generate an event.</p>
+                        <p className="text-sm">
+                            {loadError
+                                ? 'Could not load audit events. Check DATABASE_URL.'
+                                : 'No events yet. Sign in or register to write an auth.signin / auth.register row.'}
+                        </p>
                     </div>
                 </CardContent>
             </Card>
@@ -62,7 +57,7 @@ export async function RecentActivity() {
             <CardHeader>
                 <CardTitle>Recent Activity</CardTitle>
                 <CardDescription>
-                    Real-time audit logs. <span className="text-xs text-muted-foreground">(Showing mock data if DB empty)</span>
+                    Latest rows from <code className="font-mono text-xs">audit_events</code>.
                 </CardDescription>
             </CardHeader>
             <CardContent>

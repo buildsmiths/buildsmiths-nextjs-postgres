@@ -12,9 +12,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <p className="text-sm text-muted-foreground">An unexpected error occurred. Please try again.</p>
-                    {true && (
-                        <pre className="text-xs text-left whitespace-pre-wrap bg-muted border rounded p-3 overflow-auto max-h-48 font-mono">{String(error?.message || '')}</pre>
-                    )}
+                    <pre className="text-xs text-left whitespace-pre-wrap bg-muted border rounded p-3 overflow-auto max-h-48 font-mono">{String(error?.message || '')}</pre>
                 </CardContent>
                 <CardFooter className="justify-center">
                     <Button onClick={() => reset()}>Try again</Button>

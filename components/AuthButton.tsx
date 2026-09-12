@@ -26,8 +26,7 @@ export const AuthButton: React.FC<AuthButtonProps> = ({ initialUserId = null, on
     async function handleSignOut() {
         setLoading(true);
         try {
-            await nextAuthSignOut({ redirect: false });
-            // Immediately reflect signed-out state in UI without waiting for auth event
+            await nextAuthSignOut({ callbackUrl: '/' });
             setUserId(null);
             onUserChange?.(null);
         } finally {

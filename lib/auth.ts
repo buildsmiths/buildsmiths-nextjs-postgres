@@ -6,6 +6,7 @@ import { users } from '@/db/schema';
 import { getServerSession } from 'next-auth';
 import { sql } from 'drizzle-orm';
 import { env } from './env';
+import { logAuditEvent } from './audit';
 
 const providers: any[] = [
     Credentials({
@@ -60,12 +61,25 @@ export const authOptions = {
     callbacks: {
         async jwt({ token, user }: any) {
             if (user?.id) token.sub = user.id;
+            if (user?.email) token.email = user.email;
             return token;
         },
         async session({ session, token }: any) {
             if (token?.sub) (session.user as any).id = token.sub;
             return session;
         }
+    },
+    events: {
+        async signIn({ user }: any) {
+            await logAuditEvent('auth.signin', user?.email ?? user?.id ?? null, {
+                userId: user?.id,
+            });
+        },
+        async signOut({ token }: any) {
+            await logAuditEvent('auth.signout', token?.email ?? token?.sub ?? null, {
+                userId: token?.sub,
+            });
+        },
     }
 };
 

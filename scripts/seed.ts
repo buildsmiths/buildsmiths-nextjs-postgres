@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../lib/db';
-import { users, subscriptions } from '../db/schema';
+import { users, subscriptions, auditEvents } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
 async function main() {
@@ -27,6 +27,12 @@ async function main() {
     if (!existingSub) {
         await db.insert(subscriptions).values({ userId, tier: 'free', status: 'none' });
     }
+
+    await db.insert(auditEvents).values({
+        type: 'db.seed',
+        actor: 'seed',
+        payload: { email, userId },
+    });
 
     console.log(`✅ Seeded successfully.`);
     console.log(JSON.stringify({ email, userId }, null, 2));

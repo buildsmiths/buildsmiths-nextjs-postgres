@@ -1,7 +1,6 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
@@ -14,9 +13,7 @@ export async function upgradeSubscription() {
     if (!session || !((session as any).user as any)?.id) {
         redirect('/auth');
     }
-
-    console.info('action.upgradeSubscription.not_implemented', { userId: ((session as any).user as any)?.id });
-    throw new Error('Billing is not implemented. Refer to blueprints/billing-stripe.md to add Stripe integration.');
+    redirect('/blueprints/billing-stripe');
 }
 
 export async function manageSubscription() {
@@ -24,7 +21,5 @@ export async function manageSubscription() {
     if (!session || !((session as any).user as any)?.id) {
         redirect('/auth');
     }
-
-    console.info('action.manageSubscription.not_implemented', { userId: ((session as any).user as any)?.id });
-    throw new Error('Billing is not implemented. Refer to blueprints/billing-stripe.md to add Stripe integration.');
+    redirect('/blueprints/billing-stripe');
 }

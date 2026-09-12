@@ -3,9 +3,9 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Copy, FileText, Terminal } from 'lucide-react';
+import { ArrowLeft, FileText } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface PageProps {
     params: Promise<{

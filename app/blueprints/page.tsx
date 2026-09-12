@@ -1,9 +1,8 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import Link from 'next/link';
-import { ScrollText, Terminal, CreditCard, Sparkles, Server, Shield, ArrowRight } from "lucide-react"
+import { Terminal, CreditCard, Sparkles, Server, Shield, ArrowRight } from "lucide-react"
 
 export const metadata = {
     title: 'Blueprints',
@@ -129,7 +128,7 @@ export default function BlueprintsPage() {
                     <div className="bg-background border rounded-lg p-4 font-mono text-sm text-foreground/80">
                         <span className="text-green-600"># Example Prompt</span><br />
                         "Read <span className="text-blue-600">blueprints/async-jobs.md</span> and implement the job queue system.
-                        Use the existing db/schema.sql patterns."
+                        Follow the existing Drizzle patterns in db/schema.ts."
                     </div>
                 </CardContent>
             </Card>

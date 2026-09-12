@@ -13,12 +13,14 @@
   </div>
 </div>
 
+**Live demo:** [buildsmiths-nextjs-postgres-stripe.vercel.app](https://buildsmiths-nextjs-postgres-stripe.vercel.app) — hosted Postgres (Neon) plus Vercel env vars. Do not put `DATABASE_URL` in git.
+
 ---
 
 ## ✨ Features
 
 - **⚡ Next.js 16 & React 19:** Powered by App Router and Turbopack for lightning-fast development.
-- **🔐 Safe & Secure Auth:** Custom credentials flow via **Auth.js** with strictly enforced Next.js Middleware route gating (deny-by-default architecture).
+- **🔐 Auth.js v4:** Credentials (email + password) with JWT sessions. Route gating lives in `proxy.ts`.
 - **🗄️ Fully Typed Database:** Pure **PostgreSQL** handled securely by **Drizzle ORM**. Zero monolith bloat, full edge-compatibility.
 - **🎨 Zero Component Lock-In:** Lean layout wrappers built on pure **Tailwind CSS v4**.
 - **🧩 AI-Native Blueprints:** A unique architecture where complex features (like Stripe billing) are stored as Markdown specs natively. Feed them directly to your AI agent for instant codebase generation.
@@ -65,6 +67,8 @@ Simply copy the content of any Blueprint markdown file and paste it to your mode
 **Included Blueprint Examples:**
 - 💳 `billing-stripe.md` - Integrates Stripe Checkout, Webhooks, and Customer Portal Sessions.
 - 🔑 `auth-google.md` - Injects Google OAuth Provider cleanly into Auth.js.
+- ✨ `ai-sdk.md` - Streaming chat with the Vercel AI SDK / OpenRouter.
+- ⚙️ `async-jobs.md` - Postgres-backed background jobs without Redis.
 
 ---
 
@@ -117,3 +121,5 @@ After the first successful deploy, add these in Project Settings → Environment
 - `NEXT_PUBLIC_SITE_URL` — optional on Vercel; falls back to `VERCEL_URL`
 
 Then push the Drizzle schema (`npm run db:push`) against that same `DATABASE_URL`.
+
+This repository is licensed under the MIT License. See `LICENSE`.
