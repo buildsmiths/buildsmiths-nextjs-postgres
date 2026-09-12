@@ -12,7 +12,7 @@ export function SetupBanner() {
                     <AlertTitle>This deploy is running in setup mode</AlertTitle>
                     <AlertDescription>
                         <p className="mb-2">
-                            The site built without extra Vercel env vars. Add these in Project Settings → Environment Variables, then redeploy, to enable sign-in and the database.
+                            Auth and the database need a few environment variables. Add them in <code className="font-mono text-xs">.env.local</code> or Vercel Project Settings → Environment Variables, then restart/redeploy.
                         </p>
                         <ul className="list-disc pl-5 space-y-1">
                             {missing.map((item) => (

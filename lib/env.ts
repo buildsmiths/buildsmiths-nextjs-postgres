@@ -12,7 +12,12 @@ function isUsableUrl(value: string | undefined): value is string {
 }
 
 function isUsableSecret(value: string | undefined): value is string {
-    return !!value && value !== 'X' && value.length >= 16;
+    return (
+        !!value &&
+        value !== 'X' &&
+        value !== FALLBACK_AUTH_SECRET &&
+        value.length >= 16
+    );
 }
 
 function isUsableDatabaseUrl(value: string | undefined): value is string {
