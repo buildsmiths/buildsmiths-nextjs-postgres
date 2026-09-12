@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Link from 'next/link';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { AuthButton } from '@/components/AuthButton';
 import NavLink from '@/components/NavLink';
 import Providers from '@/components/Providers';
@@ -9,6 +10,16 @@ import { SetupBanner } from '@/components/SetupBanner';
 import { env } from '@/lib/env';
 
 import { Metadata } from 'next';
+
+const geistSans = Geist({
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
     title: {
@@ -35,8 +46,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const reducedMotion = process.env.TEST_REDUCED_MOTION === '1';
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={`min-h-screen bg-background text-foreground flex flex-col ${reducedMotion ? 'reduced-motion' : ''}`}>
+        <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+            <body className={`${geistSans.className} min-h-screen bg-background text-foreground flex flex-col font-sans antialiased ${reducedMotion ? 'reduced-motion' : ''}`}>
                 <Providers>
                     {/* Skip to content link (visually hidden, visible on focus) */}
                     <a href="#main" className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-background focus:text-primary focus:ring-2 focus:ring-ring focus:px-3 focus:py-2 focus:rounded">
