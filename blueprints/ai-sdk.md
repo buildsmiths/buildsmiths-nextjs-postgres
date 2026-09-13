@@ -1,22 +1,17 @@
-# Spec: AI SDK Integration
+# Spec: AI SDK chat
 
-## Goal
-Implement a standardized AI chat and completion interface utilizing the modern Vercel AI SDK Core. Enable streaming interfaces with minimal boilerplate.
+Chat is not in the default clone.
 
-## Architecture Decisions
-- Config: Store AI provider settings and configurations in `lib/ai/provider.ts` (e.g., using `@ai-sdk/openai` configured for OpenRouter or OpenAI).
-- Backend: Expose standard streaming routes (e.g. `app/api/chat/route.ts`) acting as standard React Route Handlers.
-- Frontend: Use standard React hooks provided by the Vercel AI SDK, primarily `useChat`.
-- Model: Support switching underlying models seamlessly via standard environment variables.
+```bash
+npx skills add vercel/ai@ai-sdk
+```
 
-## Constraints & Rules
-- Strict TypeScript must be used for tool definitions and responses (using `zod`).
-- Use the modern `streamText` and `generateText` APIs from the `ai` package. Avoid legacy helpers like `OpenAIStream`.
-- Keep API keys strictly server-side. Ensure no API keys or secrets are leaked to the client bundle.
-- Apply rate limiting on the API route utilizing the existing `lib/rate-limit.ts` logic to prevent abuse.
+Then follow `.agents/skills/add-ai-sdk/SKILL.md`.
 
-## Acceptance Criteria
-- [ ] Secure route handler correctly accepts and processes chat messages.
-- [ ] UI accurately streams responses in real-time.
-- [ ] Provider configuration limits API key exposure to server contexts.
-- [ ] Rate limits successfully trigger upon excessive requests.
+## Rules
+
+- Keys stay on the server
+- Use `streamText` / `generateText`
+- Gate `/api/chat` with the existing Auth.js session
+- Postgres for history if needed; Redis only if the user asked
+- Model via env, not a hardcoded vendor

@@ -1,21 +1,18 @@
-# Spec: Google Authentication
+# Spec: Google authentication
 
-## Goal
-Activate and seamlessly integrate Google OAuth Sign-In into the existing NextAuth authentication flow.
+Enable Google OAuth on the existing Auth.js v4 credentials app.
 
-## Architecture Decisions
-- Config: Add `GoogleProvider` to the existing NextAuth configuration located in `lib/auth.ts`.
-- Environment: Set up conditionally enabled logic tied to the presence of `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
-- UI: Expose an "enableGoogle" prop to `components/SignInPanel.tsx` allowing it to conditionally render the "Sign in with Google" button.
-- DB: Depend on the existing NextAuth logic to map OAuth tokens to the `users` table for account linking.
+## Already in this repo
 
-## Constraints & Rules
-- The Credentials (Email/Password) provider must remain fully functional and default. Google Auth should be wholly optional based on environment configuration.
-- Do not commit any `.env` secrets or keys.
-- Ensure the OAuth redirect URI follows the standard NextAuth route (`[SITE_URL]/api/auth/callback/google`).
-- If implementing custom account linking due to the existing Credential flow, ensure it correctly matches upon the verified `email` field.
+- `GoogleProvider` in `lib/auth.ts` when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set
+- Sign-in button via `enableGoogle`
+- `users.password_hash` is nullable
+- `upsertUserByEmail` in `lib/users.ts` so Google users get our UUID
 
-## Acceptance Criteria
-- [ ] Google button naturally conditionally renders when Google API keys are provided.
-- [ ] User can authenticate via Google and correctly route to the logged-in dashboard.
-- [ ] Google user data properly seeds/links into the underlying `users` database table.
+## Do this
+
+1. Google Cloud OAuth client. Redirect `{SITE_URL}/api/auth/callback/google`.
+2. Set env vars. Never commit them.
+3. Keep email/password working. Link by verified email.
+
+See `.agents/skills/add-google-auth/SKILL.md`.

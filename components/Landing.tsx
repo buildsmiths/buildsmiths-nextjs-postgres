@@ -1,159 +1,118 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from "@/components/ui/badge"
-import { Check, Terminal, Layers, Code2, Box, GitBranch, ExternalLink, FolderTree } from "lucide-react"
-
+import { Badge } from '@/components/ui/badge';
+import { Check, Terminal, Layers, Code2, Box, GitBranch, ExternalLink, FolderTree } from 'lucide-react';
+import { GITHUB_REPO, GITHUB_SLUG, SITE_TAGLINE } from '@/lib/seo';
 
 export default function Landing() {
     return (
         <div className="mx-auto max-w-5xl px-4 py-16 space-y-24">
-            {/* Hero */}
             <section className="space-y-6 text-center pt-8">
                 <Badge variant="secondary" className="mb-4">Next.js 16 · Drizzle · Auth.js v4</Badge>
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground/90">
-                    The <span className="text-primary">AI-Native</span> SaaS Starter
+                    A kernel you can clone
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-                    A minimalist foundation for 2026. Next.js 16, Server Actions, Postgres with Drizzle, and a <strong>Blueprint Architecture</strong> designed for AI code generation.
+                    {SITE_TAGLINE}. Add Stripe, chat, or Redis with vendor skills from skills.sh — not extra boilerplate in this repo.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
                     <Button asChild size="lg" className="h-12 px-8 text-base">
-                        <a href="/dashboard">View Demo Dashboard</a>
+                        <a href="/start">Read Start</a>
                     </Button>
                     <Button asChild variant="outline" size="lg" className="h-12 px-8">
-                        <a href="https://github.com/buildsmiths/buildsmiths-nextjs-postgres" target="_blank" rel="noreferrer">
-                            GitHub
-                        </a>
+                        <a href="/dashboard">Sign in</a>
+                    </Button>
+                    <Button asChild variant="outline" size="lg" className="h-12 px-8">
+                        <a href={GITHUB_REPO} target="_blank" rel="noreferrer">GitHub</a>
                     </Button>
                 </div>
             </section>
 
-            {/* Quickstart Content (Replaces Old Section) */}
             <section id="quickstart" aria-labelledby="quickstart-title" className="space-y-8">
                 <div className="text-center mb-8">
-                    <h2 id="quickstart-title" className="text-3xl font-bold tracking-tight mb-2">Get Started in 5 Minutes</h2>
-                    <p className="text-muted-foreground">Everything you need to run locally is included.</p>
+                    <h2 id="quickstart-title" className="text-3xl font-bold tracking-tight mb-2">Get running</h2>
+                    <p className="text-muted-foreground">Same commands as <a className="underline" href="/start">Start</a>.</p>
                 </div>
 
-                {/* Project Context - Full Width */}
                 <Card className="w-full border-2 shadow-sm">
                     <CardHeader className="border-b bg-muted/20 pb-6">
-                        <div className="space-y-1">
-                            <CardTitle className="text-2xl">Quickstart Guide</CardTitle>
-                            <CardDescription>
-                                Defines the environment for both you and your AI agent.
-                            </CardDescription>
-                        </div>
+                        <CardTitle className="text-2xl">Quickstart</CardTitle>
+                        <CardDescription>For you and for the agent that cloned this repo.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-10 pt-8">
-
-
-                        {/* Section 2: Installation Checkpoints */}
                         <div className="space-y-4">
                             <h3 className="flex items-center gap-2 font-semibold text-lg text-foreground">
                                 <Terminal className="h-5 w-5 text-primary" />
-                                Installation Checkpoints
+                                Commands
                             </h3>
                             <div className="bg-zinc-950 text-zinc-50 rounded-lg border shadow-sm overflow-hidden">
-                                <div className="px-4 py-2 bg-zinc-900 border-b border-zinc-800 text-xs text-zinc-400 font-mono">
-                                    bash
-                                </div>
-                                <pre className="p-4 text-sm font-mono overflow-x-auto leading-relaxed">
-                                    {`# 1. Clone & Enter
-git clone https://github.com/buildsmiths/buildsmiths-nextjs-postgres.git my-saas
-cd my-saas
-
-# 2. Install & Configure
+                                <div className="px-4 py-2 bg-zinc-900 border-b border-zinc-800 text-xs text-zinc-400 font-mono">bash</div>
+                                <pre className="p-4 text-sm font-mono overflow-x-auto leading-relaxed">{`git clone https://github.com/buildsmiths/buildsmiths-nextjs-postgres.git my-app
+cd my-app
 npm install
 cp .env.example .env.local
-
-# 3. Initialize Database (ensure Postgres is running)
 npm run db:push
-npm run db:seed    # Optional: Adds test users
-
-# 4. Start Development
-npm run dev`}
-                                </pre>
+npm run db:seed
+npm run dev`}</pre>
                             </div>
                         </div>
 
-                        {/* Section 3: Codebase Structure */}
                         <div className="space-y-4">
                             <h3 className="flex items-center gap-2 font-semibold text-lg text-foreground">
                                 <FolderTree className="h-5 w-5 text-primary" />
-                                Codebase Structure
+                                Layout
                             </h3>
                             <div className="border rounded-lg divide-y text-sm">
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">app/</span>
-                                    <span className="text-foreground">Next.js App Router (pages, layouts, and actions)</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">blueprints/</span>
-                                    <span className="text-foreground">Optional feature specs as Markdown (not shipped code)</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">components/</span>
-                                    <span className="text-foreground">React components (UI &amp; layout)</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">db/</span>
-                                    <span className="text-foreground">Drizzle schema in schema.ts</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">lib/</span>
-                                    <span className="text-foreground">Env, Auth.js v4, and the Drizzle client</span>
-                                </div>
-                                <div className="grid grid-cols-[120px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
-                                    <span className="font-mono text-muted-foreground">scripts/</span>
-                                    <span className="text-foreground">Database seed script</span>
-                                </div>
+                                {[
+                                    ['app/', 'App Router pages and actions'],
+                                    ['.agents/skills/', 'Agent skills for this kernel'],
+                                    ['blueprints/', 'Human copies of the same add-ons'],
+                                    ['db/', 'Drizzle schema.ts'],
+                                    ['lib/', 'Env, auth, db, SEO'],
+                                    ['START.md', 'The one doc page'],
+                                ].map(([name, desc]) => (
+                                    <div key={name} className="grid grid-cols-[140px_1fr] p-3 gap-2 hover:bg-muted/30 transition-colors">
+                                        <span className="font-mono text-muted-foreground">{name}</span>
+                                        <span className="text-foreground">{desc}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-
                     </CardContent>
                 </Card>
 
-                {/* Info Grid - 3 Columns */}
                 <div className="grid md:grid-cols-3 gap-6">
-
-                    {/* Included Features */}
                     <Card className="h-full border-muted-foreground/20 shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Box className="h-5 w-5 text-primary" />
-                                <span>What's Included</span>
+                                Kernel
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <ul className="space-y-3 text-sm">
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Auth.js v4</strong> credentials (email + password).</span>
+                                    <span><strong>Auth.js v4</strong> email + password</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Drizzle schema</strong> for users, subscriptions, and audit events.</span>
+                                    <span><strong>Drizzle</strong> users, subscriptions, audit_events</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Dashboard UI</strong> (shadcn / Tailwind v4).</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                    <span><strong>Blueprints</strong> for Stripe, Google OAuth, AI SDK, and jobs.</span>
+                                    <span><strong>SEO</strong> sitemap, robots, JSON-LD, llms.txt</span>
                                 </li>
                             </ul>
                         </CardContent>
                     </Card>
 
-                    {/* Architecture / Tech Stack */}
                     <Card className="h-full border-muted-foreground/20 shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Layers className="h-5 w-5 text-primary" />
-                                <span>Tech Stack</span>
+                                Stack
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -164,7 +123,7 @@ npm run dev`}
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-primary mt-0.5" />
-                                    <span><strong>Postgres</strong> + Drizzle ORM</span>
+                                    <span><strong>Postgres</strong> + Drizzle</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <Check className="h-4 w-4 text-primary mt-0.5" />
@@ -172,82 +131,53 @@ npm run dev`}
                                 </li>
                             </ul>
                             <div className="mt-8 pt-4 border-t">
-                                <p className="text-xs text-muted-foreground mb-3">Explore the Blueprints pattern.</p>
                                 <Button variant="outline" size="sm" className="w-full" asChild>
                                     <a href="/blueprints">
-                                        View Blueprints <ExternalLink className="ml-2 h-3 w-3" />
+                                        Add-ons <ExternalLink className="ml-2 h-3 w-3" />
                                     </a>
                                 </Button>
                             </div>
                         </CardContent>
                     </Card>
 
-                    {/* Source Code */}
                     <Card className="h-full border-muted-foreground/20 shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Code2 className="h-5 w-5 text-primary" />
-                                <span>Source Code</span>
+                                Source
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <p className="text-sm text-muted-foreground">
-                                Open source and free to use. Licensed under MIT.
-                            </p>
-                            <div className="bg-muted/50 p-3 rounded text-xs font-mono mb-2">
-                                buildsmiths/buildsmiths-nextjs-postgres
-                            </div>
+                            <p className="text-sm text-muted-foreground">MIT. Free to clone.</p>
+                            <div className="bg-muted/50 p-3 rounded text-xs font-mono">{GITHUB_SLUG}</div>
                             <Button className="w-full" asChild>
-                                <a href="https://github.com/buildsmiths/buildsmiths-nextjs-postgres" target="_blank" rel="noreferrer">
+                                <a href={GITHUB_REPO} target="_blank" rel="noreferrer">
                                     <GitBranch className="mr-2 h-4 w-4" />
-                                    Star on GitHub
+                                    GitHub
                                 </a>
                             </Button>
-                            <p className="text-xs text-muted-foreground text-center pt-2">
-                                Contributions welcome!
-                            </p>
                         </CardContent>
                     </Card>
                 </div>
             </section>
 
-            {/* Blueprint Showcase */}
-            <section className="space-y-12">
+            <section className="space-y-8">
                 <div className="text-center space-y-4">
-                    <h2 className="text-3xl font-bold tracking-tight">The "Blueprint" Architecture</h2>
+                    <h2 className="text-3xl font-bold tracking-tight">Add-ons via skills.sh</h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
-                        We don't just give you code; we give you the <strong>instructions</strong> to build it with AI.
-                        Found in <code>blueprints/</code>, these markdown specs are designed to be fed into Copilot or Cursor.
+                        Vendor skills stay current. This repo only maps them onto <code className="font-mono text-sm">db/schema.ts</code>.
                     </p>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                    {/* Card 1: AI Integration */}
-                    <div className="border rounded-xl p-6 bg-muted/30 hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="outline">blueprints/ai-sdk.md</Badge>
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">Omni-Model AI Chat</h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            Standardized Vercel AI SDK setup using OpenRouter. Switch models via env vars without touching code.
-                        </p>
-                        <div className="bg-background border rounded p-3 text-xs font-mono text-muted-foreground">
-                            &gt; "Implement the AI SDK Blueprint. Install `ai` and `@ai-sdk/openai`..."
-                        </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                    <div className="border rounded-xl p-6 bg-muted/30">
+                        <Badge variant="outline">npx skills add vercel/ai@ai-sdk</Badge>
+                        <h3 className="text-xl font-semibold mt-4 mb-2">AI chat</h3>
+                        <p className="text-sm text-muted-foreground">Not in package.json until you ask. Gate it behind the existing session.</p>
                     </div>
-
-                    {/* Card 2: Async Jobs */}
-                    <div className="border rounded-xl p-6 bg-muted/30 hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="outline">blueprints/async-jobs.md</Badge>
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">Zero-Dependency Queue</h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            A reliable Postgres-backed job queue for background tasks (emails, data processing) without adding Redis complexity.
-                        </p>
-                        <div className="bg-background border rounded p-3 text-xs font-mono text-muted-foreground">
-                            &gt; "Implement the Async Jobs Blueprint. Extend db/schema.ts..."
-                        </div>
+                    <div className="border rounded-xl p-6 bg-muted/30">
+                        <Badge variant="outline">npx skills add stripe/ai@stripe-best-practices</Badge>
+                        <h3 className="text-xl font-semibold mt-4 mb-2">Stripe</h3>
+                        <p className="text-sm text-muted-foreground">subscriptions table is already here. Checkout is an add-on.</p>
                     </div>
                 </div>
             </section>

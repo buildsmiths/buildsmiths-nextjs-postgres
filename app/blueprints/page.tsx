@@ -1,112 +1,81 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from "@/components/ui/badge"
+import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Terminal, CreditCard, Sparkles, Server, Shield, ArrowRight } from "lucide-react"
+import { Terminal, CreditCard, Sparkles, Server, Shield, ArrowRight } from 'lucide-react';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata = {
-    title: 'Blueprints',
-    description: 'Architecture specs for AI-driven development.'
-};
+export const metadata: Metadata = buildMetadata({
+    title: 'Add-ons',
+    description: 'Optional Stripe, Google OAuth, AI SDK, and job queue skills for the BuildSmiths Next.js starter.',
+    path: '/blueprints',
+});
 
-const blueprints = [
+const addons = [
     {
-        title: "Stripe Billing",
-        id: "billing-stripe",
-        file: "blueprints/billing-stripe.md",
+        title: 'Stripe Billing',
+        id: 'billing-stripe',
+        file: 'blueprints/billing-stripe.md',
+        skill: 'npx skills add stripe/ai@stripe-best-practices',
         icon: CreditCard,
-        description: "Hybrid mock/real subscription system. Toggle keys to go from dev to prod.",
-        objectives: [
-            "Subscription table schema",
-            "Checkout & Portal actions",
-            "Webhook synchronization"
-        ]
+        description: 'Checkout, portal, webhooks. Map onto the existing subscriptions table.',
     },
     {
-        title: "Google Authentication",
-        id: "auth-google",
-        file: "blueprints/auth-google.md",
+        title: 'Google Authentication',
+        id: 'auth-google',
+        file: 'blueprints/auth-google.md',
+        skill: 'Env keys + existing GoogleProvider',
         icon: Shield,
-        description: "Activation pattern for production-ready OAuth with Google and NextAuth.js.",
-        objectives: [
-            "Environment configuration",
-            "GCP Console setup",
-            "Redirect URI mapping"
-        ]
+        description: 'Optional OAuth. password_hash is nullable so Google users can exist.',
     },
     {
-        title: "AI SDK Integration",
-        id: "ai-sdk",
-        file: "blueprints/ai-sdk.md",
+        title: 'AI SDK',
+        id: 'ai-sdk',
+        file: 'blueprints/ai-sdk.md',
+        skill: 'npx skills add vercel/ai@ai-sdk',
         icon: Sparkles,
-        description: "Standardized pattern for AI chat/completion integration using Vercel AI SDK and OpenRouter.",
-        objectives: [
-            "Streaming chat interfaces",
-            "Model agnostic (Claude/GPT)",
-            "Runtime key validation"
-        ]
+        description: 'Streaming chat when you want it. Not in the default clone.',
     },
     {
-        title: "Async Jobs Queue",
-        id: "async-jobs",
-        file: "blueprints/async-jobs.md",
+        title: 'Async Jobs',
+        id: 'async-jobs',
+        file: 'blueprints/async-jobs.md',
+        skill: 'Postgres jobs, or Redis via skills.sh',
         icon: Server,
-        description: "Reliable, zero-dependency asynchronous job queue using the existing Postgres database.",
-        objectives: [
-            "Offload long-running tasks",
-            "Persist jobs across restarts",
-            "Simple retry logic"
-        ]
-    }
-];
+        description: 'Background work on Postgres first. Redis only if you ask.',
+    },
+] as const;
 
 export default function BlueprintsPage() {
     return (
         <main className="max-w-5xl mx-auto px-4 py-10 space-y-8">
             <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                    <Badge variant="secondary">Architecture Specs</Badge>
-                </div>
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Feature Blueprints</h1>
+                <Badge variant="secondary">skills.sh</Badge>
+                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Add-ons</h1>
                 <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                    Don't rely on stale boilerplate. Use these Markdown specifications to guide your AI agent
-                    in generating fresh, context-aware implementations.
+                    Vendor skills on <a className="underline" href="https://skills.sh" target="_blank" rel="noreferrer">skills.sh</a> stay current.
+                    This repo only records how they attach to Drizzle and Auth.js v4. Read <Link className="underline" href="/start">Start</Link> first.
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {blueprints.map((bp) => (
-                    <Link href={`/blueprints/${bp.id}`} key={bp.id} className="block h-full group">
-                        <Card className="flex flex-col h-full hover:shadow-md hover:border-primary/50 transition-all cursor-pointer group-hover:bg-muted/5">
+            <div className="grid md:grid-cols-2 gap-6">
+                {addons.map((item) => (
+                    <Link href={`/blueprints/${item.id}`} key={item.id} className="block h-full group">
+                        <Card className="flex flex-col h-full hover:shadow-md hover:border-primary/50 transition-all group-hover:bg-muted/5">
                             <CardHeader>
                                 <div className="flex items-center justify-between mb-2">
                                     <div className="p-2 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                        <bp.icon className="h-6 w-6" />
+                                        <item.icon className="h-6 w-6" />
                                     </div>
-                                    <Badge variant="outline" className="font-mono text-xs group-hover:border-primary/50">
-                                        .md
-                                    </Badge>
+                                    <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </div>
-                                <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
-                                    {bp.title}
-                                    <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                                </CardTitle>
-                                <CardDescription className="line-clamp-2">
-                                    {bp.description}
-                                </CardDescription>
+                                <CardTitle className="text-xl group-hover:text-primary transition-colors">{item.title}</CardTitle>
+                                <CardDescription>{item.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex-grow space-y-4">
-                                <div className="bg-muted/50 p-2 rounded text-xs font-mono text-muted-foreground break-all group-hover:bg-background transition-colors border group-hover:border-input">
-                                    {bp.file}
-                                </div>
-                                <ul className="space-y-2">
-                                    {bp.objectives.map((obj, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                                            {obj}
-                                        </li>
-                                    ))}
-                                </ul>
+                            <CardContent className="space-y-2">
+                                <p className="font-mono text-xs text-muted-foreground break-all">{item.skill}</p>
+                                <p className="font-mono text-xs text-muted-foreground">{item.file}</p>
                             </CardContent>
                         </Card>
                     </Link>
@@ -117,19 +86,13 @@ export default function BlueprintsPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Terminal className="h-5 w-5" />
-                        How to use Blueprints
+                        Example prompt
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <p className="text-sm text-muted-foreground">
-                        Blueprints are "Prompt Engineering as Code". Instead of pasting code snippets,
-                        tell your AI agent (Cursor, Copilot, etc) to read the spec file.
+                <CardContent>
+                    <p className="font-mono text-sm">
+                        Read START.md. Keep Drizzle. Then npx skills add vercel/ai@ai-sdk and add a signed-in chat route.
                     </p>
-                    <div className="bg-background border rounded-lg p-4 font-mono text-sm text-foreground/80">
-                        <span className="text-green-600"># Example Prompt</span><br />
-                        "Read <span className="text-blue-600">blueprints/async-jobs.md</span> and implement the job queue system.
-                        Follow the existing Drizzle patterns in db/schema.ts."
-                    </div>
                 </CardContent>
             </Card>
         </main>

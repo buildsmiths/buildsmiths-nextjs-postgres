@@ -1,61 +1,25 @@
-# Project Spec
+# Project spec
 
-A concise spec for this base starter so you can understand the moving parts and extend it safely. Focused on correctness, minimalism, and portability.
+Kernel: Next.js 16 App Router, Auth.js v4 credentials, Postgres + Drizzle, Tailwind v4.
 
-## Stack and layout
-- Next.js 16 App Router (Turbopack)
-  - Pages/UI in `app/`
-  - Actions directly next to pages (e.g. `app/auth/actions.ts`)
-- Auth.js (NextAuth) — Credentials provider (email + password), JWT sessions
-- Postgres + Drizzle ORM — required persistence (users, subscriptions, audit)
-- Tailwind CSS v4 alongside `shadcn/ui` base components.
+Read `START.md` for humans and agents. Skills in `.agents/skills/`. Vendor add-ons via [skills.sh](https://skills.sh).
 
-## Configuration
-- Env vars are optional for a first Vercel import. The app boots in setup mode and shows a banner until they are set.
-- Runtime (enable auth + database):
-  - `DATABASE_URL` — Postgres
-  - `AUTH_SECRET` (or `NEXTAUTH_SECRET`) — session secret
-  - `NEXT_PUBLIC_SITE_URL` — optional on Vercel; falls back to `VERCEL_URL`
-- Loading behavior:
-  - The app uses Next.js env loading (.env.local).
-  - On Vercel, system env (`VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL`) fills the public URL when unset.
-  - The `db:push` / `db:seed` scripts still need `DATABASE_URL`.
+## Env
 
-## Data model (summary)
-- `users`: id, email, password_hash
-- `subscriptions`: user_id (FK -> users.id), tier ('free'|'premium'), status ('active'|'canceled'|'none'), period/cancellation timestamps
-- `audit_events`: id, ts, actor?, type, payload?
-Schema lives in `db/schema.ts` mapped via Drizzle ORM.
+Optional on first Vercel import. Runtime: `DATABASE_URL`, `AUTH_SECRET` (or `NEXTAUTH_SECRET`), optional `NEXT_PUBLIC_SITE_URL` / `VERCEL_URL`.
 
-## Auth and access
-- Register: `app/auth/actions.ts` -> `registerAction()`
-- Sign-in/out via NextAuth credentials at `/api/auth/[...nextauth]`
-- Session resolution is JWT-based.
+## Data
 
-## Core App Features
-- Health: `GET /api/health` → `{ ok, time, setupComplete, database, authSecret }`
-- Middleware Gating: `proxy.ts` strictly gates `/dashboard` and `/account`.
-- Minimal Dashboard: `app/dashboard/page.tsx`. Recent Activity reads `audit_events`. Auth sign-in/register writes those rows.
-- Account: reads the signed-in user's `subscriptions` row. Stripe upgrade is a blueprint, not a live checkout.
+`users` (email, nullable `password_hash`), `subscriptions`, `audit_events` in `db/schema.ts`.
 
-## Persistence
-- Drizzle ORM configured natively with `pg` located at `lib/db.ts`. No heavy backend Rust engines needed.
+## Auth
 
-## Blueprints
-Optional integrations that can be added incrementally via `.md` specs:
-- `blueprints/billing-stripe.md` -> Stripe payments and webhooks.
-- `blueprints/auth-google.md` -> Google OAuth injection.
+Credentials + optional Google. `upsertUserByEmail` on Google sign-in. `proxy.ts` gates `/dashboard` and `/account` only.
 
-## Developer workflows
-- Apply schema: `npm run db:push` (reads `.env.local` via drizzle-kit)
-- Generate migrations: `npm run db:generate`
-- Seed dev user: `npm run db:seed`
-- Run: `npm run dev`
-- Build: `npm run build`
-- Typecheck: `npm run typecheck`
+## Public / SEO
 
-## Success criteria
-- `next build` succeeds with no env vars set (setup mode).
-- Health checks and core public routes work on Vercel with default project settings.
-- Auth register/sign-in succeed after `DATABASE_URL` and `AUTH_SECRET` are set.
-- Typecheck and production build pass without errors.
+`/`, `/start`, `/blueprints`, `/llms.txt`, `sitemap.xml`, `robots.txt`, JSON-LD, Open Graph image. Dashboard and account are `noindex`.
+
+## Commands
+
+`npm run db:push` · `db:seed` · `dev` · `build` · `typecheck`

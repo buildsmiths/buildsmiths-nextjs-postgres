@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
@@ -11,21 +12,26 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata = {
-    title: 'Account Settings',
-    description: 'Manage your account, profile, and subscription settings.'
-};
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = buildMetadata({
+    title: 'Account',
+    description: 'Account and subscription for the signed-in user.',
+    path: '/account',
+    index: false,
+});
 
 export default async function AccountPage() {
-    const session = await getServerSession(authOptions as any);
-    if (!session || !(session as any).user) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
         redirect('/auth');
     }
 
     const user = {
-        id: (session as any)?.user?.id as string | undefined,
-        email: ((session as any)?.user?.email as string | undefined) || '',
+        id: session.user.id,
+        email: session.user.email || '',
     };
 
     let subscription: { tier: string; status: string } | null = null;
@@ -75,7 +81,7 @@ export default async function AccountPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Subscription</CardTitle>
-                            <CardDescription>Plan rows live in Postgres. Stripe checkout is a blueprint, not bundled code.</CardDescription>
+                            <CardDescription>Plan rows live in Postgres. Stripe is an add-on, not bundled code.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -90,13 +96,13 @@ export default async function AccountPage() {
 
                             <div className="mt-4 p-4 border rounded-lg bg-muted/50 border-dashed">
                                 <p className="text-sm text-muted-foreground">
-                                    Billing is not wired in this starter. Follow <code className="font-mono bg-muted px-1 rounded">blueprints/billing-stripe.md</code> to add Stripe Checkout, webhooks, and the customer portal.
+                                    Billing is not wired. Follow <code className="font-mono bg-muted px-1 rounded">.agents/skills/add-stripe/SKILL.md</code> or install <code className="font-mono bg-muted px-1 rounded">npx skills add stripe/ai@stripe-best-practices</code>.
                                 </p>
                             </div>
                         </CardContent>
                         <CardFooter>
                             <Button asChild>
-                                <Link href="/blueprints/billing-stripe">Open Stripe Blueprint</Link>
+                                <Link href="/blueprints/billing-stripe">Open Stripe add-on</Link>
                             </Button>
                         </CardFooter>
                     </Card>

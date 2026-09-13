@@ -1,7 +1,15 @@
-import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { buildMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = buildMetadata({
+    title: 'Not found',
+    description: 'That page does not exist on the BuildSmiths starter.',
+    path: '/404',
+    index: false,
+});
 
 export default function NotFound() {
     return (

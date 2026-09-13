@@ -2,7 +2,7 @@
   "name": "buildsmiths-nextjs-postgres",
   "version": "1.0.0",
   "private": true,
-  "description": "Next.js 16 App Router starter. Deploy from the repository root (the folder with this package.json and the next dependency). Do not set Vercel Root Directory to app/.",
+  "description": "Lean Next.js 16 + Postgres + Drizzle + Auth.js v4 starter. Deploy from the repository root. Do not set Vercel Root Directory to app/.",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -28,8 +28,6 @@
     "pg": "^8.23.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "recharts": "^3.10.1",
-    "sonner": "^2.0.8",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.2"
