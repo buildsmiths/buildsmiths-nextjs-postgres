@@ -10,7 +10,7 @@
 </div>
 
 **Docs:** [START.md](./START.md) (also `/start`) · **Agents:** `AGENTS.md` · **llms.txt:** `/llms.txt`  
-**Demo:** [buildsmiths-nextjs-postgres-stripe.vercel.app](https://buildsmiths-nextjs-postgres-stripe.vercel.app) — never put `DATABASE_URL` in git.
+**Demo:** [buildsmiths-nextjs-postgres.vercel.app](https://buildsmiths-nextjs-postgres.vercel.app) — never put `DATABASE_URL` in git.
 
 ## Quickstart
 

@@ -2,7 +2,7 @@
 
 One page for humans and coding agents. This repo is a **kernel**: Next.js 16, Postgres, Drizzle, Auth.js v4. It is not a chatbot, not a Stripe app, and not a marketplace.
 
-Live demo: https://buildsmiths-nextjs-postgres-stripe.vercel.app
+Live demo: https://buildsmiths-nextjs-postgres.vercel.app
 Source: https://github.com/buildsmiths/buildsmiths-nextjs-postgres
 
 ## What you get
